@@ -1,0 +1,16 @@
+/* general styling */
+h2  {
+    font-family: 'Karla';
+}
+
+p   {
+    font-family: 'Karla';
+}
+
+a   {
+    color: black;
+}
+
+a:hover {
+    color: red;
+}
