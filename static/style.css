@@ -1,3 +1,17 @@
+
+
+highlight {
+	fill:blue;
+}
+
+#status {
+	font-family: Helvetica;
+}
+
+#instructions {
+	font-family: Helvetica;
+}
+
 /* general styling */
 h2  {
     font-family: 'Karla';
@@ -14,3 +28,4 @@ a   {
 a:hover {
     color: red;
 }
+
