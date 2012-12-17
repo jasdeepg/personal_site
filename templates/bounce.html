@@ -52,8 +52,6 @@ jQuery(document).ready(function(){
 		green_rand = Math.random()*255;
 		blue_rand = Math.random()*255;
 
-		console.log('rgb('+red_rand+','+green_rand+','+blue_rand+')');
-
 		fill_color = 'rgb('+red_rand+','+green_rand+','+blue_rand+')';
 
 		circle[i] = canvas.append('circle')
@@ -64,33 +62,33 @@ jQuery(document).ready(function(){
 							.style('fill', d3.rgb(red_rand, green_rand, blue_rand))
 
 		circle[i]
-					.on('click', function(){
-						string = this.className.baseVal
-						split_string = string.split(' ');
-						index = parseInt(split_string[1]);
+			.on('click', function(){
+				string = this.className.baseVal;
+				split_string = string.split(' ');
+				index = parseInt(split_string[1]);
 
-						circle_inst[index].stop_circle()
-						d3.select(d3.event.target).style('fill','red')
-					})
-					.on('mouseover', function(){
-						d3.select(d3.event.target).style('stroke', 'yellow');
-						d3.select(d3.event.target).style('stroke-width', 5);
+				circle_inst[index].stop_circle();
+				d3.select(d3.event.target).style('fill','red');
+			})
+			.on('mouseover', function(){
+				d3.select(d3.event.target).style('stroke', 'yellow');
+				d3.select(d3.event.target).style('stroke-width', 5);
 
-						string = this.className.baseVal
-						split_string = string.split(' ');
-						index = parseInt(split_string[1]);
+				string = this.className.baseVal;
+				split_string = string.split(' ');
+				index = parseInt(split_string[1]);
 
-						circle_inst[index].slow_circle()
-					})
-					.on('mouseout', function(){
-						d3.select(d3.event.target).style('stroke-width', 0);
+				circle_inst[index].slow_circle();
+			})
+			.on('mouseout', function(){
+				d3.select(d3.event.target).style('stroke-width', 0);
 
-						string = this.className.baseVal
-						split_string = string.split(' ');
-						index = parseInt(split_string[1]);
+				string = this.className.baseVal;
+				split_string = string.split(' ');
+				index = parseInt(split_string[1]);
 
-						circle_inst[index].slow_circle()
-					})
+				circle_inst[index].slow_circle();
+			})
 	}
 
 	//move circles independently
@@ -101,8 +99,6 @@ jQuery(document).ready(function(){
 
 			circle[i].transition()
 				.attr('cy', circle_inst[i].y)
-			
-			cir_height = $('.circle'+i).attr('cy')
 		}
 	}
 
@@ -148,7 +144,6 @@ jQuery(document).ready(function(){
 	var prev_X = 0;
 	var prev_Y = 0;
 	var distance = 0;
-	var not_moving = false;
 	var distance_prev = 0;
 
     $(document).mousemove(function(e){
@@ -156,14 +151,9 @@ jQuery(document).ready(function(){
 		prev_X = e.pageX;
 		prev_Y = e.pageY;
 		not_moving = false;
-		setTimeout(its_not_moving, 2000);
 		total_pixels += distance;
 		$('#status').html('You\'ve traveled <span style=\'color:red;\'>' + total_pixels.toFixed(2) + '</span> pixels around your piece of the internet.')
     })
-
-    function its_not_moving(){
-    	not_moving = true;
-    }
 
     function change_multiplier(){
     	if (distance==distance_prev){
@@ -176,7 +166,6 @@ jQuery(document).ready(function(){
     		}
     	}
     	distance_prev = distance;
-    	//console.log('movement '+movement_multiply+' distance, '+distance + ' not moving, '+not_moving)
     }
 
     setInterval(change_multiplier, 100)
