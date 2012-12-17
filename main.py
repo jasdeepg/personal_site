@@ -11,6 +11,11 @@ def main():
 def bounce():
     return render_template('bounce.html')
 
+@app.route('/image')
+def bounce():
+    return render_template('image_pixels.html')
+
+
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))

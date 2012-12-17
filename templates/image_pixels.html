@@ -1,0 +1,193 @@
+<html>
+<head>
+	<script type="text/javascript" src="./static/jquery.js"></script>
+    <script type="text/javascript" src="./static/d3.v2.js"></script>
+    <link href="http://fonts.googleapis.com/css?family=Karla" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="./static/style.css">
+	<title></title>
+</head>
+<body>
+
+<div id='instructions'><b>
+</b></div>
+<div id='status'>
+
+</div>
+</body>
+
+<script type="text/javascript">
+jQuery(document).ready(function(){
+	var w = 1000,
+		h = 500;
+
+	var dataset = new Array();
+	var total_pixels = 0;
+	var num_balls = 100;
+	var num_balls_y = 50;
+	var ball_radius = w/num_balls;
+
+	for(var i=0; i<num_balls; i++){
+		dataset.push(i)
+	}
+	var circle = new Array();
+	var circle_inst = new Array();
+
+	var movement_multiply=30;
+
+	//scales
+	var xScale = d3.scale.linear()
+						.domain([0,num_balls/2])
+						.range([0,w])
+
+	var yScale = d3.scale.linear()
+						.domain([0,num_balls_y/2])
+						.range([0,h])
+
+	var neg_flag = 1;
+
+	var canvas = d3.select('body')
+						.append('svg')
+						.attr('width', w)
+						.attr('height', h)
+
+	var red_rand = 0;
+	var green_rand = 0;
+	var blue_rand = 0;
+
+	//create circle objects
+	for (var i=0; i<dataset.length; i++){
+		for (var j=0; j<dataset.length/2-1; j++){
+			var start_y = yScale(j);
+			circle_inst[i] = new circle_char(start_y);
+
+			red_rand = Math.random()*255;
+			green_rand = Math.random()*255;
+			blue_rand = Math.random()*255;
+
+			fill_color = 'rgb('+red_rand+','+green_rand+','+blue_rand+')';
+
+			circle[i] = canvas.append('circle')
+								.attr('cx', ball_radius + xScale(i))
+								.attr('cy', ball_radius+circle_inst[i].y)
+								.attr('r', ball_radius)
+								.attr('class','circle '+i+' highlight')
+								.style('fill', d3.rgb(0,0,0))//d3.rgb(red_rand, green_rand, blue_rand))
+
+			circle[i]
+				.on('click', function(){
+					string = this.className.baseVal;
+					split_string = string.split(' ');
+					index = parseInt(split_string[1]);
+
+					circle_inst[index].stop_circle();
+					d3.select(d3.event.target).style('fill','red');
+				})
+				.on('mouseover', function(){
+					d3.select(d3.event.target).style('stroke', 'yellow');
+					d3.select(d3.event.target).style('stroke-width', 5);
+
+					string = this.className.baseVal;
+					split_string = string.split(' ');
+					index = parseInt(split_string[1]);
+
+					//stop circle on mouse hover
+					circle_inst[index].stop_circle();
+					d3.select(d3.event.target).style('fill','red');
+					d3.select(d3.event.target)
+							.transition()
+							.attr('cy', -50);
+				})
+				.on('mouseout', function(){
+					d3.select(d3.event.target).style('stroke-width', 0);
+
+					string = this.className.baseVal;
+					split_string = string.split(' ');
+					index = parseInt(split_string[1]);
+
+					circle_inst[index].slow_circle();
+				})
+		}
+	}
+
+	//move circles independently
+	function move_circles(){
+		for (var i=0; i<dataset.length; i++){
+			var cir_height = $('.circle '+i).attr('cy')
+			circle_inst[i].adjust_y(cir_height);
+
+			circle[i].transition()
+				.attr('cy', circle_inst[i].y)
+		}
+	}
+
+	//circle classes
+	function circle_char(start_y){
+		this.y = start_y;
+		this.adjust_y = adjust_y;
+		this.neg_flag = 100;
+		this.stop = false;
+		this.slow = 1;
+		this.stop_circle = stop_circle;
+		this.slow_circle = slow_circle;
+
+		function adjust_y(y){
+			if (!this.stop){
+				if (this.y>h && this.neg_flag>0){
+					this.neg_flag = this.neg_flag*-1;
+				}
+				else if (this.y<0 && this.neg_flag<0){
+					this.neg_flag = this.neg_flag*-1;
+				}
+				this.y = this.y + this.slow*movement_multiply/100*this.neg_flag*1;
+			}
+			else{
+				this.y = this.y;
+			}
+		}
+
+		function stop_circle(){
+			this.stop = true;
+		}
+
+		function slow_circle(){
+			if (this.slow < 1) {
+				this.slow = 1;
+			}
+			else {
+				this.slow = 0;
+			}
+		}
+	}	
+
+	var prev_X = 0;
+	var prev_Y = 0;
+	var distance = 0;
+	var distance_prev = 0;
+
+    $(document).mousemove(function(e){
+		distance = Math.sqrt(Math.pow((prev_X-e.pageX),2)+Math.pow((prev_Y-e.pageY),2));
+		prev_X = e.pageX;
+		prev_Y = e.pageY;
+		not_moving = false;
+		total_pixels += distance;
+		$('#status').html('You\'ve traveled <span style=\'color:red;\'>' + total_pixels.toFixed(2) + '</span> pixels around your piece of the internet.')
+    })
+
+    function change_multiplier(){
+    	if (distance==distance_prev){
+    		movement_multiply = 50;
+    	}
+    	else {
+    		movement_multiply = 1 - distance;
+    		if (movement_multiply<0){
+    			movement_multiply = 1
+    		}
+    	}
+    	distance_prev = distance;
+    }
+
+    setInterval(change_multiplier, 100)
+	//setInterval(move_circles, 100);
+})
+</script>
+</html>
