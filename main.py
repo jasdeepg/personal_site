@@ -12,9 +12,12 @@ def bounce():
     return render_template('bounce.html')
 
 @app.route('/image')
-def bounce():
+def image():
     return render_template('image_pixels.html')
 
+@app.route('/holdhands')
+def hold_hands():
+    return render_template('hold_hands.html')
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
