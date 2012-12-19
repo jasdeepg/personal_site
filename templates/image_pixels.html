@@ -4,7 +4,7 @@
 <div id='instructions'><b>
 </b></div>
 <div id='line'>
-<svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" style='display:none'>
   <path id='ex' d="M150 0 L75 200 L225 200 Z" />
 </svg>
 </div>
@@ -18,22 +18,21 @@ jQuery(document).ready(function(){
 	//////////
 	var coordArray = new Array();
 	var index = 0;
-	
-	alert(document.getElementById('ex').getAttribute('d').split('M')[1].split('L')[0].split(' '));
+	var granularity = 100;
 
 	splitPath = document.getElementById('ex').getAttribute('d').split('M')[1].split('L');
-	alert(splitPath);
 
 	$.each(splitPath, function(i, data){
-		// if path is closing
+		// if path is closing		
+		// (x,y)
 		findAPoint = splitPath[i].split(' ');
 
 		if (findAPoint[2]=='Z'){
-			return;
+			findBPoint = splitPath[0].split(' ');
 		}
-
-		// (x,y)
-		findBPoint = splitPath[i+1].split(' ');
+		else{
+			findBPoint = splitPath[i+1].split(' ');
+		}
 
 		xDifference = parseFloat(findBPoint[0])-parseFloat(findAPoint[0]);
 		yDifference = parseFloat(findBPoint[1])-parseFloat(findAPoint[1]);
@@ -44,41 +43,41 @@ jQuery(document).ready(function(){
 		stepX = startX;
 		stepY = startY;
 
-		for(var i=0; i<50; i++){
-			stepX = stepX + xDifference/50;
-			stepY = stepY + yDifference/50;
+		for(var i=0; i<granularity; i++){
+			stepX = stepX + xDifference/granularity;
+			stepY = stepY + yDifference/granularity;
 			coordArray.push([stepX, stepY]);
 			index = index + 1;
 		}
 	})
 
-		console.log(coordArray);
+	//determine if it's in the path
+	function is_inPath(xHigh,xLow,yHigh,yLow){
+		this.xHigh = xHigh;
+		this.xLow = xLow;
+		this.yHigh = yHigh;
+		this.yLow = yLow;
 
-		var newArray = coordArray;
-		xHigh = 175;
-		xLow = 150;
-		yHigh = 175;
-		yLow = 150;
-
-		xfilteredArray = coordArray.filter(function(i,d){
-			return d[0]<xHigh;
+		xfilteredArray = coordArray.filter(function(d,i){
+			return d[0] < this.xHigh & d[0] > this.xLow;
 		})
 
-		xyfilteredArray = xfilteredArray.filter(function(i,d){
-			return d[1]<yHigh;
+		xyfilteredArray = xfilteredArray.filter(function(d,i){
+			return d[1] < this.yHigh & d[1] > this.yLow;
 		})
 
-		alert(xyfilteredArray)
+		var is_it_true = false;
 
-	findLines = document.getElementById('ex').getAttribute('d').split('M')[1].split('L')[2].split(' ');
+		if (xyfilteredArray.length==0){
+			is_it_true=false;
+		}
+		else {
+			is_it_true=true;
+		}
 
-//	$.each(findLines, function(id, data){
-//		alert(data);
-//	})
-
-
-
-
+		return is_it_true;
+	}
+	
 	/////////
 	var w = $('#container').css('width'),
 		split_w = w.split('px'),
@@ -87,13 +86,14 @@ jQuery(document).ready(function(){
 
 	var dataset = new Array();
 	var total_pixels = 0;
-	var num_balls = 100;
-	var num_balls_y = 100;
-	var ball_radius = int_w/num_balls;
+	var num_balls = 60;
+	var num_balls_y = 60;
+	var ball_radius = (int_w/num_balls)/2;
 
 	for(var i=0; i<num_balls*num_balls_y; i++){
 		dataset.push(i)
 	}
+
 	var circle = new Array();
 	var circle_inst = new Array();
 
@@ -101,11 +101,11 @@ jQuery(document).ready(function(){
 
 	//scales
 	var xScale = d3.scale.linear()
-						.domain([0,num_balls/2])
+						.domain([0,num_balls])
 						.range([0,int_w])
 
 	var yScale = d3.scale.linear()
-						.domain([0,num_balls_y/2])
+						.domain([0,num_balls_y])
 						.range([0,h])
 
 	var neg_flag = 1;
@@ -118,6 +118,7 @@ jQuery(document).ready(function(){
 	var red_rand = 0;
 	var green_rand = 0;
 	var blue_rand = 0;
+	var t_index = 1;
 
 	//create circle objects
 	for (var i=0; i<num_balls; i++){
@@ -126,22 +127,47 @@ jQuery(document).ready(function(){
 		blue_rand = Math.random()*255;
 
 		fill_color = 'rgb('+red_rand+','+green_rand+','+blue_rand+')';
+
 		for (var j=0; j<num_balls_y; j++){
 			var start_y = yScale(j);
+			circle_inst[t_index] = new circle_char(start_y);
 
-			circle[i] = canvas.append('circle')
+			circle[t_index] = canvas.append('circle')
 								.attr('cx', ball_radius + xScale(i))
-								.attr('cy', ball_radius+ yScale(j))
+								.attr('cy', ball_radius + yScale(j))
 								.attr('r', ball_radius)
-								.attr('class','circle '+i+' highlight')
-								.style('fill', d3.rgb(red_rand, green_rand, blue_rand))
+								.attr('class','circle ' + t_index + ' highlight')
+								.style('fill', 'black')//d3.rgb(red_rand, green_rand, blue_rand))
 
-			circle[i]
+			xHigh = ball_radius + xScale(i) + ball_radius; 
+			xLow = ball_radius + xScale(i) - ball_radius;
+			yHigh = ball_radius + yScale(j) + ball_radius;
+			yLow = ball_radius + yScale(j) - ball_radius;
+
+			if (!is_inPath(xHigh, xLow, yHigh, yLow)){
+				circle_inst[t_index].set_remove();
+			}
+
+			circle[t_index]
 				.on('mouseover', function(){
-					//stop circle on mouse hover
-					d3.select(d3.event.target)
-							.style('opacity',0)
+					//remove circles on hover
+
+					string = this.className.baseVal;
+					split_string = string.split(' ');
+					index = parseInt(split_string[1]);
+
+					console.log('hovering ' + index + ' ' + circle_inst[index].removable)
+					if (circle_inst[index].removable) {
+						d3.select(d3.event.target)
+								.style('opacity',0)
+						}
+					else{
+						d3.select(d3.event.target)
+								.style('fill','red')
+					}
 				})
+			console.log(t_index)
+			t_index = t_index + 1;
 		}
 	}
 
@@ -156,15 +182,17 @@ jQuery(document).ready(function(){
 		}
 	}
 
-	//circle classes
+	//circle class
 	function circle_char(start_y){
 		this.y = start_y;
 		this.adjust_y = adjust_y;
 		this.neg_flag = 100;
 		this.stop = false;
 		this.slow = 1;
+		this.removable = false;
 		this.stop_circle = stop_circle;
 		this.slow_circle = slow_circle;
+		this.set_remove = set_remove;
 
 		function adjust_y(y){
 			if (!this.stop){
@@ -192,6 +220,10 @@ jQuery(document).ready(function(){
 			else {
 				this.slow = 0;
 			}
+		}
+
+		function set_remove(){
+			this.removable = true;
 		}
 	}	
 
