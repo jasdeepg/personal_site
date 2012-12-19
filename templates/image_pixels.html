@@ -1,8 +1,13 @@
 {% extends "base.html" %}
 
 {% block body %}
-<div id='instructions'><b>
-</b></div>
+<div class='content'></div>
+<div id='instructions'>
+	Scratch-off
+	<br>
+	12/18/2012
+	<br>
+	<b>Scratch out the image</b></div>
 <div id='line'>
 <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style='display:none'>
   <path id='ex' d="M150 0 L75 200 L225 200 Z" />
@@ -110,7 +115,7 @@ jQuery(document).ready(function(){
 
 	var neg_flag = 1;
 
-	var canvas = d3.select('#container')
+	var canvas = d3.select('.content')
 						.append('svg')
 						.attr('width', int_w)
 						.attr('height', h)
@@ -163,6 +168,7 @@ jQuery(document).ready(function(){
 						}
 					else{
 						d3.select(d3.event.target)
+								.transition()
 								.style('fill','red')
 					}
 				})
