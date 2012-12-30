@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+
+{% block body %}
+            <div id='projects'>
+            	Some of the projects I've done in the past are below. They span all sorts of areas from small electronics to big software and from non-profit to for-profit. 
+            	<br>
+            	<br>
+            	I've presented them in a timeline, which puts extraordinary pressure on me to continue to make the bars appear to increase in magnitude yearly. So far, I've failed.
+            	<br>
+            	<br>
+                <button class='product-button filter'>Product</button>
+                <button class='design-button filter'>Design</button>
+                <button class='tech-button filter'>Technical</button>
+                <button class='research-button filter'>Research</button>
+                <button class='all-button filter'>All</button>
+                <div id='timeline'></div>
+                <div id='project-list'></div>
+                <div class='2005 list' style='display:none'>
+                    <h4>2005</h4>
+                    <ol>                  
+                        <div class='research'>
+                            <li><a href='/superconductor'>Simulating superconducting arrays</a> - Real-time simulation of superconducting arrays in a Java applet.
+                            </li>
+                        </div>
+                    </ol>
+                </div>
+                <div class='2006 list' style='display:none'>
+                    <h4>2006</h4>
+                    <ol>
+                    </ol>
+                </div>
+                <div class='2007 list' style='display:none'>
+                    <h4>2007</h4>
+                    <ol>
+                        <div class='technical design'>
+                            <li><a href='/boe'>BOE Bots</a> - Rudimentary machine to conquer obstacle courses.
+                            </li>
+                        </div>
+                    </ol>
+            </div>
+                <div class='2008 list' style='display:none'>
+                    <h4>2008</h4>
+                    <ol>
+                        <div class='technical design'>
+                            <li><a href='/'>Traffic light</a> - Prototyped FPGA-based traffic light system.
+                            </li>
+                        </div>
+                        <div class='research'>
+                            <li><a href='/gravis'>Rainwater harvesting in the Thar Desert</a> - Original research on rainwater harvesting in rural India.
+                            </li>
+                        </div>
+                        <div class='research'>
+                            <li><a href='/water'>Durham Water Resources</a> - Characterized current and future water prospects in Durham County, NC.
+                            </li>
+                        </div>
+                    </ol>
+                </div>
+                <div class='2009 list' style='display:none'>
+                    <h4>2009</h4>
+                    <ol>
+                        <div class='technical research'>
+                            <li><a href='/voice'>Voice Recognition</a> - Recognition of vowels and consonants in human speech.
+                            </li>
+                        </div>
+                        <div class='product technical'>
+                            <li><a href='/duron'>DURON Energy</a> - Created the first home solar system for electrification of unelectrified India.
+                            </li>
+                        </div>
+                        <div class='product design'>
+                            <li><a href='/metoo'>Me Too Monologues</a> - Marketed and performed in a student run performance on race and identity.
+                            </li>
+                        </div>
+                        <div class='design'>
+                            <li><a href='/'>Technology and International Development</a> - Teaching slightly less knowledgeable adults how to disseminate technology in the developing world.
+                            </li>
+                        </div>
+                    </ol>
+                </div>
+                <div class='2010 list' style='display:none'>
+                    <h4>2010</h4>                    
+                    <ol>
+                        <div class='technical design product'>
+                            <li><a href='/'>Flexible Lenses</a> - Created flexible, fluid-filled lenses with developing world application.
+                            </li>
+                        </div>
+                        <div class='product design technical'>
+                            <li><a href='/'>Microsoft</a> - Worked on the future of operating systems in the Windows kernel.
+                            </li>
+                        </div>
+
+                    </ol>
+                </div>
+                <div class='2011 list' style='display:none'>
+                    <h4>2011</h4>                    
+                    <ol>
+                        <div class='product design technical'>
+                            <li><a href='/'>Microsoft</a> - Worked on the future of operating systems in the Windows kernel. 
+                            </li>
+                        </div>
+                        <div class='design research'>
+                            <li><a href='/'>Microsoft Net Impact</a> - Brought Corporate Citizenship and full time employees a bit closer.
+                            </li>
+                        </div>
+                    </ol>
+                </div>
+                <div class='2012 list' style='display:none'>
+                    <h4>2012</h4>
+                    <ol>
+                        <div class='product design technical'>
+                            <li><a href='/'>Microsoft</a> - Worked on the future of operating systems in the Windows kernel. 
+                            </li>
+                        </div>
+                        <div class='design research'>
+                            <li><a href='/'>Microsoft Net Impact</a> - Brought Corporate Citizenship and full time employees a bit closer.
+                            </li>
+                        </div>
+                        <div class='technical'>
+                            <li><a href='/bounce'>I just wanna hold your hand</a> - 48 hours. Activate neglected urban spaces. Go.
+                            </li>
+                        </div>
+                        <div class='technical'>
+                            <li><a href='/'>DoubleYou</a> - Tool for physicians to track quality of life data for children with chronic diseases.
+                            </li>
+                        </div>
+                        <div class='technical design product'>
+                            <li><a href='/image'>98Lumens</a> - Offsite solar for the masses.
+                            </li>
+                        </div>
+                        <div class='technical'>
+                            <li><a href='/bounce'>Bounce</a> - First project using the D3JS framework.
+                            </li>
+                        </div>
+                        <div class='technical'>
+                            <li><a href='/image'>Image</a> - Recreating the scratch-off experience for the interwebs.
+                            </li>
+                        </div>
+                    </ol>
+                </div>
+            </div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+        // create timeline of projects
+        var w = $('#container').css('width'),
+            tmp = w.split('px'),
+            int_w = parseInt(tmp[0])
+            h = 200,
+            margin = {bottom: 20, top: 20},
+            padding = 5;
+
+        var of_interest = '';
+
+        var string = '';
+
+        var dates = ['2005', '2006', '2007', '2008', '2009', '2010', '2011', '2012'];
+        
+        //buttons
+        $('.research-button').click(function(){
+            of_interest='research';
+            update_timeline(of_interest);
+        })
+        $('.design-button').click(function(){
+            of_interest='design';
+            update_timeline(of_interest);
+        })
+        $('.product-button').click(function(){
+            of_interest='product';
+            update_timeline(of_interest);
+        })
+        $('.tech-button').click(function(){
+            of_interest='technical';
+            update_timeline(of_interest);
+        })
+        $('.all-button').click(function(){
+            of_interest='';
+            update_timeline(of_interest);
+        })        
+        $('.filter').click(function(){
+            filter_results(string);
+        })
+        
+        var num_projects = []
+
+        for (var i=0; i<dates.length; i++){
+            $div = $('.'+dates[i]+' > ol > div');
+            num_projects.push($div.size());
+        }
+
+        var bar_width = int_w/dates.length-padding;
+
+        // scales
+
+        var xScale = d3.scale.linear()
+                            .domain([0,num_projects.length])
+                            .range([0,w]),
+            yScale = d3.scale.linear()
+                            .domain([0,Math.max.apply(Math,num_projects)])
+                            .range([margin.top,h-margin.bottom])
+
+        // canvas
+        var timeline_canvas = d3.selectAll('#timeline')
+                                    .append('svg')
+                                    .attr('width', w)
+                                    .attr('height', h)
+
+        var time_bars = timeline_canvas.selectAll('rect')
+                                        .data(dates)
+                                        .enter()
+                                        .append('rect')
+                                        .attr('x', function(d,i){
+                                            return xScale(i);
+                                        })
+                                        .attr('y', function(d,i){
+                                            return (h+margin.top)-margin.bottom-yScale(num_projects[i]);
+                                        })
+                                        .attr('height', function(d,i){
+                                            return yScale(num_projects[i])-margin.top;
+                                        })
+                                        .attr('width', bar_width)
+                                        .attr('class', function(d,i){
+                                            return d;
+                                        })
+                                        .attr('fill','navy')
+
+        time_bars.on('mouseover', function(){
+                d3.select(d3.event.target).style('stroke', 'yellow');
+                d3.select(d3.event.target).style('stroke-width', 5);
+            })
+            .on('mouseout', function(){
+                d3.select(d3.event.target).style('stroke-width', 0);
+            })
+            .on('click', function(){
+                string = this.className.baseVal;
+
+                filter_results(string)
+            })
+
+        // add axes
+        timeline_canvas.append('line')
+                .data(yScale.ticks(12))
+                .attr("y1", h-margin.bottom)
+                .attr("y2", h-margin.bottom)
+                .attr("x1", 0)
+                .attr("x2", w)
+                .attr('stroke', '#eee')
+
+        // add text
+        timeline_canvas.selectAll('text')
+                .data(dates)
+                .enter()
+                .append('text')
+                .attr('y', h-margin.bottom/2)
+                .attr('x', function(d,i){
+                    split_x = xScale(i).split('px');
+                    int_x_scale = parseInt(split_x[0]);
+                    return int_x_scale+bar_width/2;
+                })
+                .attr('dx',-10)
+                .style('font-size', 10)
+                .attr('class', 'x-axis')
+                .text(function(d,i){
+                    return d;
+                });
+
+        var proj_nums = timeline_canvas.append('g')
+                            .selectAll('text')
+                            .data(xScale.ticks(12))
+                            .enter()
+                            .append('text')
+                            .attr('y', function(d,i){
+                                return (h+margin.top)-margin.bottom-yScale(num_projects[i]);
+                            })
+                            .attr('x', function(d,i){
+                                split_x = xScale(i).split('px');
+                                int_x_scale = parseInt(split_x[0]);
+                                return int_x_scale+bar_width/2;
+                            })
+                            .attr('dx',-1)
+                            .attr('dy', -2)
+                            .style('font-size', 10)
+                            .attr('class', 'x-axis')
+                            .text(function(d,i){
+                                return num_projects[i];
+                            });
+
+        function filter_results(string){
+            var $div_of = $('.'+string);
+            var $div_of_list = $('.'+string+' > ol')
+
+            if ($div_of.is(':hidden')) {
+                $('.list').hide();
+                $div_of.show();
+                $div_of_list.children().hide();
+                if (of_interest.length>0){
+                    $div_of_list.children('.'+of_interest).show();
+                }
+                else {
+                    $div_of_list.children().show();
+                }
+                console.log($div_of_list.children('.technical'));    
+                window.scrollTo(0, document.body.scrollHeight);
+            }
+            else{
+                $div_of.hide();
+            }
+        }
+
+        function update_timeline(field_interest){
+            var filter_num = [];
+
+            for (var i=0; i<dates.length; i++){
+                if (field_interest==''){
+                    $div = $('.'+dates[i]+' > ol > div');
+                }
+                else {
+                    $div = $('.'+dates[i]+' > ol > .'+field_interest);
+                }   
+                filter_num.push($div.size());
+            }
+
+            if (field_interest==''){
+                time_bars
+                        .attr('fill','navy')
+            }
+            else if (field_interest=='technical'){
+                time_bars
+                        .attr('fill','orange')
+            }
+            else if (field_interest=='product'){
+                time_bars
+                        .attr('fill','steelblue')
+            }
+            else if (field_interest=='design'){
+                time_bars
+                        .attr('fill','red')
+            }
+            else if (field_interest=='research'){
+                time_bars
+                        .attr('fill','green')
+            }
+
+            time_bars.transition()
+                        .attr('y', function(d,i){
+                            return (h+margin.top)-margin.bottom-yScale(filter_num[i]);
+                        })
+                        .attr('height', function(d,i){
+                            return yScale(filter_num[i])-margin.top;
+                        })
+
+            proj_nums.transition()
+                        .attr('y', function(d,i){
+                                return (h+margin.top)-margin.bottom-yScale(filter_num[i]);
+                            })
+                        .text(function(d,i){
+                                return filter_num[i];
+                            });
+        }
+</script>
+{% endblock %}

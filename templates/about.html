@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block head %}
+    <script type="text/javascript" src="http://mbostock.github.com/d3/d3.time.js"></script>
+{% endblock %}
+
+{% block body %}
+	I recently quit my job at Microsoft and moved to the Bay Area to figure out what's next. The working hypothesis is that having no plan is the best plan.
+	<p>
+
+	</p>
+    <p>You can see my online presence <a href='https://www.facebook.com/jsgarcha'>here</a>.
+    <br>
+    You can see my other online presence <a href='http://www.linkedin.com/in/jgarcha'>here</a>.
+    <br>
+    You can see my other online presence <a href='https://twitter.com/jasgarch'>here</a>.
+    <br>
+    I answer questions <a href='http://www.quora.com/Jasdeep-Garcha-1'>here</a>.
+    <br>
+    I'm expanding my investment portfolio <a href='http://www.kickstarter.com/profile/538825346'>here</a>.
+    <br>
+    Often, I take <a href='https://plus.google.com/photos/102125146498606378907/albums/5790339433728682769?authkey=CPre5_31rf7FYg'>pictures</a> of people's faces.
+    <div id='graph'></div>
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	var w = 600,
+		h = 700;
+
+    d3.csv('distance.csv', function(data,error){
+    	console.log(data);
+    	console.log(error);
+	    var row_count = data.length,
+	    	dates = new Array(),
+	    	max_distance = 0;
+
+	    var date_entry = 0;
+
+	    var array = new Array();
+	    var legend_array = new Array();
+	    var time_array = new Array();
+	    var city_array = new Array();
+	    var distance_array = new Array();
+	    var unique_count = 0;
+	    
+	    for (var i=0; i<row_count; i++){
+	    	date_entry = new Date(parseInt(data[i].time_of), parseInt(data[i].month));
+	        array[i] = {city: data[i].city, date: date_entry, distance: parseFloat(data[i].distance)};
+	        if (!(data[i].city in legend_array)){
+	        	legend_array[data[i].city] = array[i].distance;
+	        	time_array[unique_count] = date_entry;
+	        	city_array[unique_count] = data[i].city;
+	        	distance_array[unique_count] = parseFloat(data[i].distance);
+	        	unique_count = unique_count + 1;
+	        }
+	        dates[i] = date_entry;
+	        max_distance = Math.max(max_distance, parseFloat(data[i].distance));
+	    }
+
+	    console.log(new Date(1987,12))
+
+	    var yScale = d3.time.scale()
+	    					.domain([array[0].date, array[array.length-1].date])
+	    					.range([20,h-12]);
+
+	    var xScale = d3.scale.linear()
+	    					.domain([0,max_distance])
+	    					.range([12,w-100]);
+
+	    var xaxis_scale = d3.scale.linear()
+	    					.domain([0,max_distance])
+	    					.range([10,w-20]);
+
+	    console.log(array[1].date);
+	    console.log("scaled"+yScale(array[0].date));
+
+	    var canvas = d3.select('#graph')
+	    				.append('svg')
+	    				.attr('class', 'distance-graph')
+	    				.attr('width', w)
+	    				.attr('height', h);
+
+	    canvas.selectAll('line')
+	    			.data(array)
+	    		.enter()
+	    			.append('line')
+	    			.attr('x1', function(d,i){
+        				if ((i-1)>=0){
+        					return xScale(array[i-1].distance);
+        				}
+        				else {
+        					return xScale(d.distance);
+        				}	    			
+        			})
+	    			.attr('y1', function(d,i){
+	    				return yScale(d.date);
+	    			})
+	    			.attr('x2', function(d,i){
+	    				console.log("regular distance " + d.distance);
+	    				console.log("scaled distance " + xScale(d.distance))
+	    				return xScale(d.distance)
+	    			})
+	    			.attr('y2', function(d,i){
+	    				return yScale(d.date);
+	    			})
+	    			.attr('stroke','steelblue')
+
+	    var down_stroke = canvas.selectAll('g.down')
+                        			.data(array)
+                    			.enter()
+                    				.append('g')
+                    				.attr('class','down')
+
+        down_stroke.append('line')
+        			.attr('x1', function(d,i){
+        				return xScale(d.distance);
+        			})
+	    			.attr('y1', function(d,i){
+	    				return yScale(d.date);
+	    			})
+	    			.attr('x2', function(d,i){
+	    				return xScale(d.distance)
+	    			})
+	    			.attr('y2', function(d,i){
+	    				if ((i+1)<=(array.length-1)){
+	    					return yScale(array[i+1].date);
+	    				}
+	    				else {
+	    					return yScale(d.date);
+	    				}
+	    			})
+	    			.attr('stroke','steelblue')	
+
+	    console.log(distance_array);	
+
+	    var legend = canvas.selectAll('g.labels')
+                        			.data(distance_array)
+                    			.enter()
+                    				.append('g')
+                    				.attr('class','labels')
+
+        legend.append('circle')
+        		.attr('cx', function(d,i){
+        			return xScale(distance_array[i]);
+        		})
+        		.attr('cy', function(d,i){
+        			return yScale(time_array[i]);
+        		})
+        		.attr('r', 3)
+        		.attr('fill', 'orange')
+
+        legend.append('text')
+        		.attr('x', function(d,i){
+        			return xScale(distance_array[i]);
+        		})
+        		.attr('y', function(d,i){
+        			return yScale(time_array[i])-5;
+        		})
+        		.text(function(d,i){
+        			return city_array[i];
+        		})
+
+       	var x_axis = canvas.selectAll('g.xaxis')
+                        			.data(xScale.ticks(1))
+                    			.enter()
+                    				.append('g')
+                    				.attr('class','xaxis')
+
+        x_axis.append('line')
+        		.attr('x1', 0)
+        		.attr('y1', h-12)
+        		.attr('x2', w)
+        		.attr('y2', h-12)
+        		.attr('stroke', 'steelblue')
+        		.attr('stroke-width', 0.2)
+
+        x_axis.append('text')
+        		.attr('x', w/2)
+        		.attr('y', h)
+        		.text('Distance')
+
+        var y_axis = canvas.selectAll('g.yaxis')
+                    			.data(yScale.ticks(1))
+                			.enter()
+                				.append('g')
+                				.attr('class','yaxis')
+
+        y_axis.append('line')
+        		.attr('x1', 12)
+        		.attr('y1', 0)
+        		.attr('x2', 12)
+        		.attr('y2', h)
+        		.attr('stroke', 'steelblue')
+        		.attr('stroke-width', 0.2)
+
+        y_axis.append('text')
+        		.attr('x', 0)
+        		.attr('y', h/2)
+        		.attr('transform', 'rotate(90, '+0+','+h/2+')')
+        		.text('Years')
+
+	    function create_downStroke(i){
+	    	downstrokes = canvas
+	    			.append('g');
+
+	    	downstrokes.selectAll('lines')
+	    					.data(array)
+	    				.enter()
+	    					.append('line')
+	    				.attr('x1', function(d,i){
+	    					return xScale(d.distance)
+	    				})   
+	    }
+
+	});
+
+</script>
+{% endblock %}

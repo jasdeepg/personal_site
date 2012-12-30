@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<img src="static/images/2007/boe2.jpg" class='projpage-image'>
+
+<div class='proj-title'><h2>BOE Bots</h2></div>
+
+<div class='proj-date'>12/2007</div>
+
+<h3>Description</h3>
+
+First foray into MCU-based electronics. The challenge for the robot involved an autonomous traversal of an obstacle course. To meet it, we used a number of off-the-shelf components, including a Parallax development board, QTI line follower, infrared LED/detector pairs, servomotors, and an RFID transmitter/receiver pair.
+<br>
+<br>
+The software operated in seven separate memory banks on the BS2sx microcontroller. Although the program used all available slots, only about 5000 bits were utilized in completing the challenge (discounting all common methods i.e. servo controller methods). Organizing each step of the challenge into separate memory banks simplified analysis and debugging.
+
+<h3>Components</h3>
+MCU programming, PBasic, Sensors
+
+{% endblock %}

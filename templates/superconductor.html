@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<img src="static/images/2005/current.jpg" class='projpage-image'>
+
+<div class='proj-title'><h2>Simulating superconducting arrays</h2></div>
+
+<div class='proj-date'>8/2005</div>
+
+<h3>Description</h3>
+
+The goal of this project was to create a model to view superconductivity in Josephson junction arrays and then to use that model to observe critical behavior as a function of current at varying temperatures, magnetic fields, and array sizes. 
+<br>
+<br>
+Joesphon junctions are created when a non-superconducting material is sandwiched in between two superconducting materials. In this configuration, superconducting electrons can tunnel right through the non-superconducting material without any resistance. The Java-based applet above simulated an array of these junctions.
+<br>
+<br>
+Josephson junctions are most commonly used in high-speed circuits, and to detect extremely low magnetic fields. I explored the superconducting phenomenon using an existing model developed by Christopher Lobb in  a 1987 essay. I converted his modeling equations into a Java-based applet that simulated an array of junctions under different conditions (e.g. magnetic field, a current, and a temperature). As expected the junctions responded to each variable as  the literature suggested -- Under magnetic influence, vertices were spawned to 'expel' the field so that the rest of the array could superconduct normally. When a third-party current was injected, the array began to create and expel vertices to account for the voltage imbalance. With an increase in temperature, the array reacted in a random fashion.
+<br>
+<br>
+Tying the conditions together allowed me to study the effect of critical current, or a current at which the superconducting material becomes normal. The current was found to decrease as temperature increased, which made sense as superconductivity manifests itself at very low temperatures. In previous studies, only one critical current had ever been observed; however the simulation supported the existence of more than one critical current at which the array is governed by a new set of characteristics.
+<br>
+<br>
+I never got a chance to corroborate the simulation data with real experimental data.
+
+<h3>Components</h3>
+Lab research, Java, Visual Basic
+
+{% endblock %}

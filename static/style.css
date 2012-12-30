@@ -14,6 +14,12 @@ highlight {
 /* general styling */
 h2  {
     font-family: 'Karla';
+    font-size: 18px;
+}
+
+h3 {
+	font-family: 'Karla';
+	font-size: 14px;
 }
 
 p   {
@@ -38,10 +44,21 @@ a:hover {
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
+	font-size:12px;
 }
 
 .skills {
 	padding-left:20%;
-	font-style: oblique;
 }
 
+.front-image {
+	width:100%;
+}
+
+.projpage-image {
+	width:100%;
+}
+
+.proj-date {
+	margin-top:-2.5%;
+}

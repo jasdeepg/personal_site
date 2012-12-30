@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<img src="static/images/2009/voice.jpg" class='projpage-image'>
+
+<div class='proj-title'><h2>Voice recognition</h2></div>
+
+<div class='proj-date'>12/2009</div>
+
+<h3>Description</h3>
+Voice recognition has gained massive popularity in recent times. Computer interfaces converting speech to text, voice dialing, learning tools, and other relevant technology have gained prominence because of effectiveness. The implementation is not simple and the challenges are numerous, among them is making a robust system to identify common sounds across populations.
+<br>
+<br>
+This project intended to explore the difference between normal and modified speech and  understand whether feature selection is consistent across the two sets of data. Two specific problem areas that were addressed:
+	<ul>
+		<li>Variable compression and expansion of data required for transmission over certain mediums, and </li>
+		<li>Making a robust system to identify common sounds (such as consonants and vowels) across populations. </li>
+	</ul>
+The compression/expansion problem was addressed by applying a particular time-scale modification algorithm known as Waveform Similarity Overlap and Add (WSOLA). This specific algorithm was chosen for its capability of, theoretically, preserving some pitch and frequency content of the original signal the algorithm is applied to. Unfortunately, this experiment confirmed that although WSOLA proved as an upgrade to up/down sampling a signal, it still has much room for improvement. By viewing the spectrograms of the modified signals, it is evident that WSOLA has two effects on signals: 
+	<ul>
+		<li>It actually distorts the pitch of the original signal, and</li>
+		<li>It augments the signal with higher frequencies. </li>
+	</ul>
+When considering the complexity of an algorithm implemented in large applications, such as VoIP, it is pretty obvious that the WSOLA algorithm is insufficient. 
+<br>
+<br>
+In identifying common sounds, we developed a system that made use of a classification algorithm based on Linear Discriminant Analysis (LDA). By selecting the most important features for different phoneme classes, we were able to hit a <b>90% success rate</b> in identifying the right phoneme for a series of test sample data.
+
+<h3>Components</h3>
+Digitial Signal Processing, Matlab, Modeling and simulation
+
+{% endblock %}

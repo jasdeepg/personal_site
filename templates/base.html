@@ -1,23 +1,35 @@
 <!doctype html>
 <html>
     <head>
-        {% block head %}
-        {% endblock %}
+
         <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
         <link href='http://fonts.googleapis.com/css?family=Karla' rel='stylesheet' type='text/css'>
         <script src='static/render_page.html'></script>
         <script type="text/javascript" src="./static/jquery.js"></script>
         <script type="text/javascript" src="./static/d3.v2.js"></script>    
+        {% block head %}
+        {% endblock %}
     </head>
-
     <body>
         <div id="container">
             <div id='title'>
-                <h2><a href='/'>Hi, I am Jasdeep.</a></h2>
+                <div id='home' style='text-align:left;font-size:30px'>
+                    <a href='/'>hi, i am jasdeep.</a>
+                </div>
+                <div id='links' style='float:left;text-align:left'>
+                    <a href='/'>home</a> /
+                    <a href='/about'>about me</a> /
+                    <a href='/projects'>things I'm proud of</a>
+                </div>
             </div>
+            <br>
             <hr>
             {% block body %}
             {% endblock %}
+            <hr>
+            <div id='copyright' style='float:left;text-alight:left'>
+                Copyright 2012 Jasdeep Garcha
+            </div>
         </div>
     </body>
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
