@@ -36,8 +36,6 @@
 		h = 700;
 
     d3.csv('distance.csv', function(data,error){
-    	console.log(data);
-    	console.log(error);
 	    var row_count = data.length,
 	    	dates = new Array(),
 	    	max_distance = 0;
@@ -65,8 +63,6 @@
 	        max_distance = Math.max(max_distance, parseFloat(data[i].distance));
 	    }
 
-	    console.log(new Date(1987,12))
-
 	    var yScale = d3.time.scale()
 	    					.domain([array[0].date, array[array.length-1].date])
 	    					.range([20,h-12]);
@@ -78,9 +74,6 @@
 	    var xaxis_scale = d3.scale.linear()
 	    					.domain([0,max_distance])
 	    					.range([10,w-20]);
-
-	    console.log(array[1].date);
-	    console.log("scaled"+yScale(array[0].date));
 
 	    var canvas = d3.select('#graph')
 	    				.append('svg')
@@ -104,8 +97,6 @@
 	    				return yScale(d.date);
 	    			})
 	    			.attr('x2', function(d,i){
-	    				console.log("regular distance " + d.distance);
-	    				console.log("scaled distance " + xScale(d.distance))
 	    				return xScale(d.distance)
 	    			})
 	    			.attr('y2', function(d,i){
@@ -138,8 +129,6 @@
 	    				}
 	    			})
 	    			.attr('stroke','steelblue')	
-
-	    console.log(distance_array);	
 
 	    var legend = canvas.selectAll('g.labels')
                         			.data(distance_array)
@@ -206,19 +195,6 @@
         		.attr('y', h/2)
         		.attr('transform', 'rotate(90, '+0+','+h/2+')')
         		.text('Time')
-
-	    function create_downStroke(i){
-	    	downstrokes = canvas
-	    			.append('g');
-
-	    	downstrokes.selectAll('lines')
-	    					.data(array)
-	    				.enter()
-	    					.append('line')
-	    				.attr('x1', function(d,i){
-	    					return xScale(d.distance)
-	    				})   
-	    }
 
 	});
 
