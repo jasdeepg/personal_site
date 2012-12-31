@@ -8,6 +8,7 @@
             	I've presented them in a timeline, which puts extraordinary pressure on me to continue to make the bars appear to increase in magnitude yearly. So far, I've failed.
             	<br>
             	<br>
+                <b>Filters:</b>
                 <button class='product-button filter'>Product</button>
                 <button class='design-button filter'>Design</button>
                 <button class='tech-button filter'>Technical</button>
@@ -224,11 +225,10 @@
                                         .attr('fill','navy')
 
         time_bars.on('mouseover', function(){
-                d3.select(d3.event.target).style('stroke', 'yellow');
-                d3.select(d3.event.target).style('stroke-width', 5);
+                d3.select(d3.event.target).style('opacity', 0.3);
             })
             .on('mouseout', function(){
-                d3.select(d3.event.target).style('stroke-width', 0);
+                d3.select(d3.event.target).style('opacity', 1);
             })
             .on('click', function(){
                 string = this.className.baseVal;
