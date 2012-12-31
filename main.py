@@ -7,8 +7,21 @@ app = Flask(__name__)
 def main():
     return render_template('index.html')
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/aboutex')
+def about_ex():
+    return render_template('about_ex.html')
+
+@app.route('/projects')
+def projects():
+    return render_template('projects.html')
+
 #projects
 
+#2012
 @app.route('/bounce')
 def bounce():
     return render_template('bounce.html')
@@ -21,22 +34,29 @@ def image():
 def hold_hands():
     return render_template('hold_hands.html')
 
-@app.route('/superconductor')
-def superconductor():
-    return render_template('superconductor.html')
+@app.route('/98lumens')
+def lumens():
+    return render_template('98lumens.html')
 
-@app.route('/boe')
-def boe():
-    return render_template('boe.html')
+@app.route('/doubleyou')
+def doubleyou():
+    return render_template('doubleyou.html')
 
-@app.route('/gravis')
-def gravis():
-    return render_template('gravis.html')
+#2011
+@app.route('/ms')
+def microsoft():
+    return render_template('microsoft.html')
 
-@app.route('/water')
-def water():
-    return render_template('water.html')
+@app.route('/msni')
+def msni():
+    return render_template('msni.html')
 
+#2010
+@app.route('/lenses')
+def lenses():
+    return render_template('lenses.html')
+
+#2009
 @app.route('/voice')
 def voice():
     return render_template('voice.html')
@@ -49,17 +69,43 @@ def duron():
 def metoo():
     return render_template('metoo.html')
 
-@app.route('/about')
-def about():
-    return render_template('about.html')
+@app.route('/teched')
+def teched():
+    return render_template('teched.html')
 
-@app.route('/projects')
-def projects():
-    return render_template('projects.html')
+#2008
+@app.route('/gravis')
+def gravis():
+    return render_template('gravis.html')
 
+@app.route('/water')
+def water():
+    return render_template('water.html')
+
+@app.route('/traffic')
+def traffic():
+    return render_template('traffic.html')
+
+#2007
+@app.route('/boe')
+def boe():
+    return render_template('boe.html')
+
+#2006
+
+#2005
+@app.route('/superconductor')
+def superconductor():
+    return render_template('superconductor.html')
+
+#CSV files
 @app.route('/distance.csv')
 def distance():
     return render_template('distance.csv')
+
+@app.route('/distance_ex.csv')
+def distance_ex():
+    return render_template('distance_ex.csv')
 
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
