@@ -5,20 +5,153 @@
 {% endblock %}
 
 {% block body %}
-	<input type='number' name='month'>
-	<input type='number' name='year'>
-	<input type='text' name='city'>
-	<input type='text' name='region'>
+	<ul id='fields'>
+	</ul>
+	<button class='add-field'>+ destination</button>
 	<button class='submit'>Submit</button>
     <div id='graph'></div>
 {% endblock %}
 
 {% block js %}
 <script type="text/javascript">
+$(document).ready(function(){
+
+	/************************
+	* Input logic -- 
+	* lots of list item generation and parsing going on here
+	************************/
+
+	var major_place = 1; //re-base graph
+	var minor_place = 1; //base on major_place
+	var capture_input = new Array();
+	var array_index = 0;
+	var ref_list_object = 0;
+	var unique_datepicker = 0;
+	var months_conv = {
+		'Jan':1,
+		'Feb':2,
+		'Mar':3,
+		'Apr':4,
+		'May':5,
+		'Jun':6,
+		'Jul':7,
+		'Aug':8,
+		'Sep':9,
+		'Oct':10,
+		'Nov':11,
+		'Dec':12
+	}
+
+	$('.add-field').trigger('click');
+
+	$('.add-field').click(function(){
+		// add major fields
+		name = 'dest_major'+major_place;
+		class_name = 'major-dest';
+		//	$('#fields').append('</ul>');
+		$('#fields').append('</div>')
+		add_fields(name, class_name);
+		// add datepicker
+		major_place += 1;
+		minor_place = 1;
+	});
+
+	$('.add-sub-field').click(function(event){
+		onClickEvent(event)})
+
+	function onClickEvent(event){
+		parent = event.target.id;
+		name = 'dest_minor';
+		class_name = 'minor-dest';
+		add_fields(name, class_name,parent);
+		minor_place += 1;
+	}
+
+	function add_fields(name, class_name, parent){
+		if (class_name.search('minor-dest')>-1){
+			console.log($('#fields').find('li.'+parent));
+			ref_list_object = $('#fields').find('li.'+parent);
+			ref_list_object.append('<li class=\''+class_name+'\'><input type=\'text\' name=\''+name+'\'><input type="text" id="datepicker'+unique_datepicker+'"><input type="text" id="datepicker'+(unique_datepicker+1)+'"></li>');
+			new Pikaday({ field: document.getElementById('datepicker'+unique_datepicker),
+							yearRange: [1910, 2013] });	
+			new Pikaday({ field: document.getElementById('datepicker'+(unique_datepicker+1)),
+							yearRange: [1910, 2013] });	
+			unique_datepicker+=2;
+		}
+		else {
+			ref_list_object = $('<li class=\''+name+'\'/>').appendTo('#fields');
+			ref_list_object.append('<input type=\'text\' name=\''+name+'\'><input type="text" id="datepicker'+unique_datepicker+'"><input type="text" id="datepicker'+(unique_datepicker+1)+'">');
+			button_obj = $('<button class=\'add-sub-field\' id=\''+name+'\'>+</button>').appendTo(ref_list_object);
+			button_obj.click(function(event){
+				onClickEvent(event);
+			})
+			new Pikaday({ field: document.getElementById('datepicker'+unique_datepicker),
+							yearRange: [1910, 2013] });
+			new Pikaday({ field: document.getElementById('datepicker'+(unique_datepicker+1)),
+							yearRange: [1910, 2013] });
+			unique_datepicker+=2;
+		}
+	}
+
+	// add place button
+
+	// button pressed to redraw graph when all places are submitted
 	$('.submit').click(function(){
+		birthplace = $('input:text[name=dest_major0]').val();
+		// iterate through the place field
+		// outer loop is major destinations (open-ended, only one entry -- major_place)
+		// inner loop is minor destinations (pattern is minor_place, then major_place to reset graph)
+		$('#fields').children().each(function(i,d){
+			// inst_major_city_date = $('input:date[input=dest_major'(i+1)+']').val();
+			// find distance between two places using an API
+			// calculate distance between birth place and current location
+			// find the list item and capture it's children as an object
+			var hold_parent = $(this).children()
+			// iterate over elements to grab city name and date
+			var city_name = $(hold_parent).val();
+			var date_name = $(hold_parent).next().val();
+			alert(city_name);
+			alert(date_name);
+			// split date to turn into a Date object
+			var split_date = date_name.split(' ');
+			var date_obj = new Date(parseInt(split_date[3]), months_conv[split_date[1]]-1);
+			// populate array -- birthplace is always the reference
+			inst_major_city = city_name;
+			capture_input[array_index]={city:inst_major_city, date:date_obj, distance:1};
+			array_index+=1;
+
+			// iterate over sub-places
+			$('.dest_major'+(i+1)).children('li').each(function(i,d){
+				// same drill as parent
+				var hold_child = $(this).children()
+				var city_name = $(hold_child).val();
+				var date_name = $(hold_child).next().val();
+				var split_date = date_name.split(' ');
+				var date_obj = new Date(parseInt(split_date[3]), months_conv[split_date[1]]-1);
+				capture_input[array_index]={city:city_name, date:date_obj, distance:1};
+				array_index += 1;
+				date_name = $(hold_child).next().val();
+				split_date = date_name.split(' ');
+				date_obj = new Date(parseInt(split_date[3]), months_conv[split_date[1]]-1);
+
+				var date_name2 = $(hold_child).next().val();
+				var split_date2 = date_name.split(' ');
+				var date_obj2 = new Date(parseInt(split_date[3]), months_conv[split_date[1]]-1);
+				// graph requires that array ties back to base city
+				capture_input[array_index]={city:inst_major_city, date:date_obj2, distance:1};
+				array_index+=1;
+			});
+		});
+		console.log(capture_input);
 		redraw();
 	})
 
+    /******************
+    * Graphing logic -- this is a black box...
+    * 'array' is used by the d3 library to plot life library
+    *******************/
+		    
+	// area of graph but can redraw to browser size ...
 	var w = 600,
 		h = 700;
 
@@ -46,6 +179,8 @@
 		    var distance_array = new Array();
 		    var unique_count = 0;
 		    
+
+		    // from an excel file ... let's change this to in-browser
 		    for (var i=0; i<row_count; i++){
 		    	date_entry = new Date(parseInt(data[i].time_of), parseInt(data[i].month));
 		        array[i] = {city: data[i].city, date: date_entry, distance: parseFloat(data[i].distance)};
@@ -60,8 +195,6 @@
 		        max_distance = Math.max(max_distance, parseFloat(data[i].distance));
 		    }
 
-		    console.log(new Date(1987,12))
-
 		    var yScale = d3.time.scale()
 		    					.domain([array[0].date, array[array.length-1].date])
 		    					.range([20,h-12]);
@@ -73,9 +206,6 @@
 		    var xaxis_scale = d3.scale.linear()
 		    					.domain([0,max_distance])
 		    					.range([10,w-20]);
-
-		    console.log(array[1].date);
-		    console.log("scaled"+yScale(array[0].date));
 
 		    canvas.selectAll('line')
 		    			.data(array)
@@ -93,8 +223,6 @@
 		    				return yScale(d.date);
 		    			})
 		    			.attr('x2', function(d,i){
-		    				console.log("regular distance " + d.distance);
-		    				console.log("scaled distance " + xScale(d.distance))
 		    				return xScale(d.distance)
 		    			})
 		    			.attr('y2', function(d,i){
@@ -127,8 +255,6 @@
 		    				}
 		    			})
 		    			.attr('stroke','steelblue')	
-
-		    console.log(distance_array);	
 
 		    var legend = canvas.selectAll('g.labels')
 	                        			.data(distance_array)
@@ -211,6 +337,6 @@
 
 		});
 	}
-
+})
 </script>
 {% endblock %}

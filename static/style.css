@@ -62,3 +62,15 @@ a:hover {
 .proj-date {
 	margin-top:-2.5%;
 }
+
+.major-dest {
+	margin-left:0px;
+}
+
+.minor-dest {
+	margin-left: 30px;
+}
+
+#fields {
+	list-style-type: none;
+}

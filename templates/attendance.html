@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+{% endblock %}
+
+{% block body %}
+
+<div class='graph'></div>
+
+<div class='proj-title'><h2>Fluid-filled lenses</h2></div>
+
+<div class='proj-date'>2/2010-5/2010</div>
+
+<h3>Team</h3>
+
+<h3>Description</h3>
+
+<h3>Components</h3>
+
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+	$(document).ready(function(){
+
+		var w = 600,
+			h = 500;
+		
+		var layers = [
+		  {
+		    "name": "apples",
+		    "values": [
+		      { "x": 0, "y":  91},
+		      { "x": 1, "y": 290}
+		    ]
+		  },
+		  {  
+		    "name": "oranges",
+		    "values": [
+		      { "x": 0, "y":  9},
+		      { "x": 1, "y": 49}
+		    ]
+		  }
+		];
+
+		var canvas =  d3.select('#graph')
+							.append('svg')
+							.attr('width', w)
+							.attr('height', h)
+
+		var stack = d3.layout.stack()
+						.
+
+
+
+
+	});
+</script>
+{% endblock %}
