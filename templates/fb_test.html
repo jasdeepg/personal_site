@@ -41,6 +41,8 @@
 		    });
 		}
 
+		person_array = {};
+
 		function testAPI() {
 		    console.log('Welcome!  Fetching your information.... ');
 		    FB.api('/LolliandPops/posts?limit=75', function(response) {
@@ -51,9 +53,16 @@
 		        		console.log('	'+response);
 		        		$.each(response['data'], function(index, like){
 		        			console.log('		' + like.name);
+		        			if(like.name in person_array){
+		        				person_array[like.name]+=1;
+		        			}
+		        			else{
+		        				person_array[like.name]=1;
+		        			}
 		        		})
 		        	})
 		        })
+		        console.log(person_array);
 		    });
 		}
 
