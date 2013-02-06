@@ -45,8 +45,8 @@
 		    console.log('Welcome!  Fetching your information.... ');
 		    FB.api('/LolliandPops/posts', function(response) {
 		    	console.log(response);
-		        $.each(response['data'], function(entry){
-		        	console.log(entry);
+		        $.each(response['data'], function(index,entry){
+		        	console.log(entry.id);
 		        })
 		    });
 		}
