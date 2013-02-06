@@ -43,10 +43,16 @@
 
 		function testAPI() {
 		    console.log('Welcome!  Fetching your information.... ');
-		    FB.api('/LolliandPops/posts', function(response) {
+		    FB.api('/LolliandPops/posts?limit=75', function(response) {
 		    	console.log(response);
 		        $.each(response['data'], function(index,entry){
 		        	console.log(entry.id);
+		        	FB.api('/'+entry.id+'/likes?limit=200', function(response){
+		        		console.log('	'+response);
+		        		$.each(response['data'], function(index, like){
+		        			console.log('		' + like.name);
+		        		})
+		        	})
 		        })
 		    });
 		}
