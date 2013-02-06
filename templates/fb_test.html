@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block body %}
+	<div id='list'></div>
 	<div id="fb-root"></div>
 	<script>
 	var person_array_high = {};
@@ -56,6 +57,7 @@
 		        	FB.api('/'+entry.id+'/likes?limit=200', function(response){
 		        		//console.log('	'+response);
 		        		$.each(response['data'], function(index, like){
+		        			$('#list').append(like.name+'<br>');
 		        			console.log(like.name);
 		        			if(like.name in person_array){
 		        				person_array[like.name]+=1;
