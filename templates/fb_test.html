@@ -46,8 +46,8 @@
 
 		function testAPI() {
 		    console.log('Welcome!  Fetching your information.... ');
-		    FB.api('/LolliandPops', function(response) {
-		        console.log('Good to see you, ' + response + '.');
+		    FB.api('/LolliandPops/posts', function(response) {
+		        console.log(response);
 		    });
 		}
 
