@@ -50,13 +50,13 @@
 
 		    console.log('Welcome!  Fetching your information.... ');
 		    FB.api('/LolliandPops/posts?limit=75', function(response) {
-		    	console.log(response);
+		    	//console.log(response);
 		        $.each(response['data'], function(index,entry){
-		        	console.log(entry.id);
+		        	//console.log(entry.id);
 		        	FB.api('/'+entry.id+'/likes?limit=200', function(response){
-		        		console.log('	'+response);
+		        		//console.log('	'+response);
 		        		$.each(response['data'], function(index, like){
-		        			console.log('		' + like.name);
+		        			console.log(like.name);
 		        			if(like.name in person_array){
 		        				person_array[like.name]+=1;
 		        			}
