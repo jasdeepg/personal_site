@@ -3,6 +3,8 @@
 {% block body %}
 	<div id="fb-root"></div>
 	<script>
+	var person_array_high = {};
+
 	alert('in')
 	  // Additional JS functions here
 	  window.fbAsyncInit = function() {
@@ -18,7 +20,8 @@
 	    FB.getLoginStatus(function(response) {
 		  if (response.status === 'connected') {
 		    // connected
-		    console.log(testAPI());
+		    person_array_high = testAPI();
+		    console.log(person_array_high);
 		  } else if (response.status === 'not_authorized') {
 		    // not_authorized
 		    login();
