@@ -3,7 +3,6 @@
 {% block body %}
 	<div id="fb-root"></div>
 	<script>
-	person_array = {};
 	alert('in')
 	  // Additional JS functions here
 	  window.fbAsyncInit = function() {
@@ -19,7 +18,7 @@
 	    FB.getLoginStatus(function(response) {
 		  if (response.status === 'connected') {
 		    // connected
-		    testAPI();
+		    console.log(testAPI());
 		  } else if (response.status === 'not_authorized') {
 		    // not_authorized
 		    login();
@@ -44,6 +43,8 @@
 		}
 
 		function testAPI() {
+			person_array = {};
+
 		    console.log('Welcome!  Fetching your information.... ');
 		    FB.api('/LolliandPops/posts?limit=75', function(response) {
 		    	console.log(response);
@@ -63,6 +64,8 @@
 		        	})
 		        })
 		    });
+
+		    return person_array;
 		}
 
 	  // Load the SDK Asynchronously
