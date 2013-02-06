@@ -3,6 +3,7 @@
 {% block body %}
 	<div id="fb-root"></div>
 	<script>
+	person_array = {};
 	alert('in')
 	  // Additional JS functions here
 	  window.fbAsyncInit = function() {
@@ -35,13 +36,12 @@
 		        if (response.authResponse) {
 		            // connected
 		            testAPI();
+		            console.log(person_array);
 		        } else {
 		            // cancelled
 		        }
 		    });
 		}
-
-		person_array = {};
 
 		function testAPI() {
 		    console.log('Welcome!  Fetching your information.... ');
@@ -63,7 +63,6 @@
 		        	})
 		        })
 		    });
-		   	console.log(person_array);
 		}
 
 	  // Load the SDK Asynchronously
