@@ -19,6 +19,14 @@ def about_ex():
 def projects():
     return render_template('projects.html')
 
+@app.route('/fb_test')
+def fb_test():
+    return render_template('fb_test.html')
+
+@app.route('/channel')
+def channel():
+    return render_template('channel.html')
+
 #projects
 
 #2012
