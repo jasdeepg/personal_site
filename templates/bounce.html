@@ -46,7 +46,8 @@ jQuery(document).ready(function(){
 	var green_rand = 0;
 	var blue_rand = 0;
 
-	//create circle objects
+	// create D3 circles and class objects
+
 	for (var i=0; i<dataset.length; i++){
 		var start_y = Math.random()*h;
 		circle_inst[i] = new circle_char(start_y);
@@ -64,6 +65,8 @@ jQuery(document).ready(function(){
 							.attr('class','circle '+i+' highlight')
 							.style('fill', d3.rgb(red_rand, green_rand, blue_rand))
 
+		// object events for click/mouseover 
+		
 		circle[i]
 			.on('click', function(){
 				string = this.className.baseVal;
@@ -94,7 +97,7 @@ jQuery(document).ready(function(){
 			})
 	}
 
-	//move circles independently
+	// move circles independently
 	function move_circles(){
 		for (var i=0; i<dataset.length; i++){
 			var cir_height = $('.circle '+i).attr('cy')
@@ -105,7 +108,11 @@ jQuery(document).ready(function(){
 		}
 	}
 
-	//circle classes
+	// circle classes - holds information about
+	// each D3 circle object and attributes effect
+	// movement of circles. Each class object is
+	// associated 1:1 with a D3 circle object.
+
 	function circle_char(start_y){
 		this.y = start_y;
 		this.adjust_y = adjust_y;
@@ -144,6 +151,9 @@ jQuery(document).ready(function(){
 		}
 	}	
 
+	// measure extent of mouse movement to determine 
+	// how fast or slow the circles should move
+
 	var prev_X = 0;
 	var prev_Y = 0;
 	var distance = 0;
@@ -158,6 +168,9 @@ jQuery(document).ready(function(){
 		$('#status').html('You\'ve traveled <span style=\'color:red;\'>' + total_pixels.toFixed(2) + '</span> pixels around your piece of the internet.')
     })
 
+    // change the multiplier corresponding to
+    // mouse movement
+
     function change_multiplier(){
     	if (distance==distance_prev){
     		movement_multiply = 50;
@@ -170,6 +183,10 @@ jQuery(document).ready(function(){
     	}
     	distance_prev = distance;
     }
+
+    // call these functions to move circles
+    // and to determine how fast they should 
+    // move every 100 ms
 
     setInterval(change_multiplier, 100)
 	setInterval(move_circles, 100);

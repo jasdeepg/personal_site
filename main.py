@@ -30,6 +30,21 @@ def channel():
 #projects
 
 #2013
+@app.route('/target')
+def target():
+    return render_template('target_accrual.html')
+
+@app.route('/pov')
+def pov():
+    return render_template('pov.html')
+
+@app.route('/chocolatetasting')
+def chocolatetasting():
+    return render_template('chocolatetasting.html')
+
+@app.route('/chocolateis')
+def chocolateis():
+    return render_template('chocolateis.html')
 
 
 #2012
