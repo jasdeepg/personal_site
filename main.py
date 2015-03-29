@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def main():
-    return render_template('index.html')
+    return render_template('about.html')
 
 @app.route('/about')
 def about():
@@ -28,6 +28,12 @@ def channel():
     return render_template('channel.html')
 
 #projects
+
+#2014
+@app.route('/lolliandpops')
+def lolliandpops():
+    return render_template('target_accrual.html')
+
 
 #2013
 @app.route('/target')
