@@ -32,8 +32,7 @@ def channel():
 #2014
 @app.route('/lolliandpops')
 def lolliandpops():
-    return render_template('target_accrual.html')
-
+    return render_template('lolliandpops.html')
 
 #2013
 @app.route('/target')
