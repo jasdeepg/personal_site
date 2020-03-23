@@ -1,7 +1,11 @@
 import os
 from flask import Flask, render_template
+from blog.blog_blueprint import blog_app
+import config
 
 app = Flask(__name__)
+
+app.register_blueprint(blog_app, url_prefix='/blog')
 
 @app.route('/')
 def main():
