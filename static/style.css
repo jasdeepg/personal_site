@@ -47,6 +47,14 @@ a:hover {
 	font-size:12px;
 }
 
+p img {
+	width:100%;
+}
+
+.image img {
+	width:100%;
+}
+
 .skills {
 	padding-left:20%;
 }

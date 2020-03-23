@@ -1,7 +1,6 @@
 {% extends "blog.html" %}
 
 {% block content %}
-<a href="{{ url_for('blog.home') }}">Blog Home</a>
 <h3>Recent posts in {{ category.name }}</h3>
 
 {% for post in category.recent_posts %}
