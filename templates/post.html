@@ -2,7 +2,7 @@
 
 {% block content %}
 
-	<h3>{{ post.title }}</h3>
+	<h1>{{ post.title }}</h1>
 	<h5>Published on {{ published_date.strftime('%m-%d-%Y') }} | By {{ post.author.first_name }} {{ post.author.last_name }}</h5>
 	{% if category %}
 		<h6>Posted in 
