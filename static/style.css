@@ -27,6 +27,11 @@ p   {
     font-size: 14px;
 }
 
+ol	{
+	font-family: 'Karla';
+    font-size: 14px;
+}
+
 a   {
     color: black;
 }
