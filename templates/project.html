@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block body %}
+  
+  <img src="{{ project.feature_image }}" class='projpage-image'>
+
+  <h1>{{ project.project_title }}</h1>
+  {% if date_start == date_end %}
+    <h5>{{ date_start.strftime('%m-%Y') }}</h5>
+  {% else %}
+    <h5>{{ date_start.strftime('%m-%Y') }} - {{ date_end.strftime('%m-%Y') }}</h5>
+  {% endif %}
+  <h2>Description</h2>
+  {{ project.description|safe }}
+  {% if project.components %}
+    <h2>Components</h2>
+    <p>{{ project.components }}</p>
+  {% endif %}
+
+{% endblock %}

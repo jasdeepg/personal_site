@@ -14,20 +14,25 @@ highlight {
 /* general styling */
 h2  {
     font-family: 'Karla';
-    font-size: 18px;
+    font-size: 22px;
 }
 
 h3 {
 	font-family: 'Karla';
-	font-size: 14px;
+	font-size: 20px;
 }
 
 p   {
     font-family: 'Karla';
-    font-size: 14px;
+    font-size: 18px;
 }
 
 ol	{
+	font-family: 'Karla';
+    font-size: 14px;
+}
+
+ul	{
 	font-family: 'Karla';
     font-size: 14px;
 }
@@ -46,11 +51,11 @@ a:hover {
 
 #container {	
 	font-family: 'Karla';
-	width: 600px;
+	width: 800px;
 	height: auto;
 	margin-left: auto;
 	margin-right: auto;
-	font-size:12px;
+	font-size:18px;
 }
 
 p img {
