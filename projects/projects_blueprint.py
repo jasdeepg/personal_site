@@ -18,7 +18,7 @@ client = ButterCMS(config.BUTTERCMS_KEY)
 def home(page=1):
     response = client.content_fields.get(['projects'])
     projects = response['data']['projects']
-    return render_template('projects_new.html', projects=projects, convert_unicode_datetime=convert_unicode_datetime)
+    return render_template('projects.html', projects=projects, convert_unicode_datetime=convert_unicode_datetime)
 
 
 @projects_app.route('/<slug>')
