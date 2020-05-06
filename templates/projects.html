@@ -115,14 +115,26 @@
         var end = date_end.getFullYear();
 
         years = Array();
+        project_type = Array();
 
         for(i = start; i <= end; i++) {years.push(i);};
+        {% for type in project.project_type %}
+            project_type.push('{{ type.slug }}');     
+        {% endfor %}
+
+        project_type.forEach(function(type,index){
+            console.log(type);
+        })
+
         years.forEach(function (year, index){
             if($('#projects').find('div.'+year).length !== 0){
-                $('.'+year).find('ol').append('<div id="'+slug+'""><li><a href="{{ url_for("projects.show_post", slug=project.slug) }}">'+title+'</a> - '+summary+'</li></div>')
-                {% for type in project.project_type %}
-                    $('#'+slug).addClass('{{ type.slug }}');
-                {% endfor %}
+                div_id = year + "_" + slug;
+                $('.'+year).find('ol').append('<div id="'+div_id+'""><li><a href="{{ url_for("projects.show_post", slug=project.slug) }}">'+title+'</a> - '+summary+'</li></div>')
+            project_type.forEach(function(type,index){
+                console.log(slug + " " + year + " " + type)
+                console.log('.'+year+' > ol > #'+slug)
+                $('#'+div_id).addClass(type);
+                })
             } else {
                 $('#projects').append('<div class="'+year+' list" style="display:none"><h4>'+year+'</h4><ol></ol></div>');
                 $('.'+year).find('ol').append('<div id="'+slug+'""><li><a href="{{ url_for("projects.show_post", slug=project.slug) }}">'+title+'</a> - '+summary+'</li></div>');
