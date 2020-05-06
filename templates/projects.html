@@ -122,17 +122,11 @@
             project_type.push('{{ type.slug }}');     
         {% endfor %}
 
-        project_type.forEach(function(type,index){
-            console.log(type);
-        })
-
         years.forEach(function (year, index){
             if($('#projects').find('div.'+year).length !== 0){
                 div_id = year + "_" + slug;
                 $('.'+year).find('ol').append('<div id="'+div_id+'""><li><a href="{{ url_for("projects.show_post", slug=project.slug) }}">'+title+'</a> - '+summary+'</li></div>')
             project_type.forEach(function(type,index){
-                console.log(slug + " " + year + " " + type)
-                console.log('.'+year+' > ol > #'+slug)
                 $('#'+div_id).addClass(type);
                 })
             } else {
