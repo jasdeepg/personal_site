@@ -62,6 +62,13 @@ p img {
 	width:100%;
 }
 
+.language-python {
+	white-space: pre-wrap;
+	background: lightgray;
+	word-wrap: break-word;
+	
+}
+
 .image img {
 	width:100%;
 }
