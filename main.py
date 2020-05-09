@@ -38,6 +38,15 @@ def distance():
 def distance_ex():
     return render_template('distance_ex.csv')
 
+# projects that could not be built in CMS - below are direct routes
+@app.route('/bounce')
+def bounce():
+    return render_template('bounce.html')
+
+@app.route('/image')
+def image():
+    return render_template('image_pixels.html')
+
 if __name__ == '__main__':
     # Bind to PORT if defined, otherwise default to 5000.
     port = int(os.environ.get('PORT', 5000))
