@@ -16,5 +16,7 @@ month,distance,city,time_of
 9,2407.48,"San Francisco, CA",2012
 11,2407.48,"San Francisco, CA",2013
 8,356,"Atlanta, GA",2014
-7,1459.36,"Denver, CO",2019
-4,1459.36,"Denver, CO",2020
+7,1463,"Denver, CO",2019
+8,1463,"Denver, CO",2022
+9,1479,"Boulder, CO",2022
+12,1479,"Boulder, CO",2024
