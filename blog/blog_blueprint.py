@@ -20,7 +20,7 @@ def home(page=1):
     posts = response['data'] 
     next_page = response['meta']['next_page']
     previous_page = response['meta']['previous_page']
-    return render_template('blog.html', posts=posts, next_page=next_page, previous_page=previous_page, convert_unicode_datetime=convert_unicode_datetime)
+    return render_template('blog.html', title="Jasdeep's Blog", posts=posts, next_page=next_page, previous_page=previous_page, convert_unicode_datetime=convert_unicode_datetime)
 
 
 @blog_app.route('/<slug>')
@@ -32,7 +32,10 @@ def show_post(slug):
     except:
         # Post was not found
         abort(404)
-    return render_template('post.html', post=post, published_date=published_date)
+
+    title = "Jasdeep's Blog - " + post['title']
+
+    return render_template('post.html', post=post, published_date=published_date, title=title)
 
 @blog_app.route('/category/<category_slug>')
 def show_category(category_slug):

@@ -1,6 +1,10 @@
 <!doctype html>
 <html>
-    <title>Jasdeep's site</title>
+    {% if title %}
+        <title>{{ title }}</title> 
+    {% else %}
+        <title>Jasdeep's site</title>
+    {% endif %}
     <head> 
         <link rel='stylesheet' href="{{ url_for('static', filename='style.css') }}">
         <link rel='stylesheet' href="{{ url_for('static', filename='pikaday.css') }}">
